@@ -1,0 +1,14 @@
+🎵 BGM 교체 방법
+
+기본적으로 Web Audio API로 만든 **절차적 치원 멜로디**가 재생됩니다
+(C-Am-F-G 해피 progression, 부드러운 볼륨 0.035).
+
+원하는 음악으로 바꾸려면:
+1. MP3 파일을 `bgm.mp3`로 이름 변경
+2. `index.html`과 같은 폴더에 넣기
+3. 브라우저 새로고침
+
+우선 순위: bgm.mp3 (있으면) → 절차적 BGM (없으면)
+
+추천: Desktop/claude/BG/MP_시작하는 즐거움.mp3 또는
+     Desktop/claude/BG/Feel-Good.mp3 등
