@@ -1,54 +1,101 @@
-# Bubble Dragons — 서연 & 아빠 (PWA)
+# TETRIS · PERI Edition
 
-안드로이드(또는 아이폰/PC)에 **앱처럼 설치해서 즐기는** 2인 협동 보글보글 스타일 게임.
+> 모던 테트리스를 PERI Design DNA v2 기반으로 재해석한 단일 페이지 PWA(Progressive Web App).
 
-## 📦 포함 파일
+## 패키지 구성
+
 | 파일 | 역할 |
-|------|------|
-| `index.html` | 게임 본체 (단일 파일, 모든 로직 포함) |
-| `manifest.json` | PWA 매니페스트 (앱 이름·아이콘·전체화면 설정) |
-| `sw.js` | 서비스 워커 (오프라인 캐시) |
-| `icon-192.png` / `icon-512.png` | 홈 화면 아이콘 |
+|---|---|
+| `index.html` | 게임 본체 — HTML/CSS/JS 단일 파일, 외부 의존성 없음 |
+| `manifest.json` | PWA 매니페스트 — 설치형 웹앱 메타데이터 |
+| `sw.js` | Service Worker — 첫 방문 후 완전 오프라인 플레이 지원 |
+| `icon.svg` | 벡터 앱 아이콘 (PERI 트리컬러) |
+| `icon-192.png` | PWA 아이콘 192×192 |
+| `icon-512.png` | PWA 아이콘 512×512 (홈 추가·앱 마켓 표시용) |
 
-## 📱 안드로이드 설치 방법 (권장: 무료 호스팅 2분 셋업)
+## 로컬 실행 — 가장 빠른 방법
 
-### 방법 A — Netlify Drop (가장 간단, 계정 불필요)
-1. 이 zip을 푼 폴더 전체를 [https://app.netlify.com/drop](https://app.netlify.com/drop) 에 드래그 앤 드롭
-2. 생성된 `https://xxxxx.netlify.app` 주소를 **안드로이드 Chrome**으로 연다
-3. 우상단 ⋮ 메뉴 → **"앱 설치"** 또는 **"홈 화면에 추가"** 선택
-4. 홈 화면 아이콘 탭 → 전체화면 앱처럼 실행
+가벼운 정적 서버로 띄우면 PWA 기능까지 모두 동작합니다.
 
-### 방법 B — GitHub Pages
-1. GitHub 저장소 만들고 파일 업로드
-2. Settings → Pages → main 브랜치 루트 배포
-3. 생성된 주소를 안드로이드 Chrome에서 열고 "홈 화면에 추가"
-
-### 방법 C — 로컬 네트워크 테스트 (같은 Wi-Fi)
+**Python 3 (사전설치 불필요)**
 ```bash
-cd bubble-dragons-pwa
+cd tetris-peri-edition
 python3 -m http.server 8080
+# 브라우저에서 http://localhost:8080 접속
 ```
-안드로이드 Chrome에서 `http://[PC의 IP]:8080` 접속. ⚠️ 서비스 워커는 HTTPS에서만 동작하므로 오프라인 캐시는 제한됨.
 
-## 🎮 조작법
-- **서연 (초록)**: 방향키 이동 / ↑ 점프 / SPACE 방울 (안드로이드는 좌측 패드)
-- **아빠 (파랑)**: WASD 이동 / W 점프 / F 방울 (안드로이드는 우측 패드)
-- 모바일은 화면 하단에 자동으로 가상 패드가 나타남
+**Node.js**
+```bash
+npx serve tetris-peri-edition
+```
 
-## ⏰ 특별 규칙
-- 스테이지별로 적군 색상 변화 (보라 → 주황 → 파랑 → 빨강 → 녹색 → 황금)
-- 적 처치 시 음식 드롭 (🍎🍉🍰🍔🍦🍬 중 랜덤)
-- **플레이 5분 경과 시 무적 유령 등장 — 물리칠 수 없으니 도망만!**
+> ⚠️ `index.html`을 더블클릭(file://)해도 게임은 실행되지만, Service Worker는 보안상 비활성화됩니다. 오프라인 PWA 기능까지 테스트하려면 반드시 HTTP 서버를 사용하세요.
 
-## 🛠 요구 사항
-- HTTPS 환경 (PWA 설치 및 서비스 워커 동작을 위해)
-- 안드로이드 Chrome 67+ / iOS Safari 11.3+ / 데스크톱 최신 브라우저
+## 모바일 홈 화면 추가 (앱처럼 사용)
 
-## 🎵 BGM 커스터마이징
-- 기본: Web Audio API로 생성하는 치원 멜로디 (C-Am-F-G 해피 루프, 0.035 볼륨)
-- 커스텀 음악: `bgm.mp3` 파일을 `index.html`과 같은 폴더에 넣으면 자동 재생
-- 추천 BGM 후보 (~/Desktop/claude/BG/):
-  - `MP_시작하는 즐거움.mp3` ⭐ 가장 권장
-  - `Feel-Good.mp3`
-  - `MP_긍정의 에너지.mp3`
-  - `희망찬 느낌/Feel-Good.mp3`
+1. 모바일 브라우저(iOS Safari · Android Chrome)에서 배포 URL 접속
+2. **공유 → 홈 화면에 추가** 선택
+3. PERI 아이콘으로 설치된 앱 실행 → 풀스크린 게임 모드
+
+## 배포 옵션
+
+정적 파일만으로 구성되어 있어 어떤 정적 호스팅에도 그대로 업로드 가능합니다.
+
+| 호스트 | 명령 / 절차 |
+|---|---|
+| **Netlify Drop** | `tetris-peri-edition` 폴더를 [app.netlify.com/drop](https://app.netlify.com/drop)에 드래그 |
+| **Vercel** | `vercel --prod` (해당 폴더에서) |
+| **GitHub Pages** | 폴더 커밋 후 Settings → Pages → 브랜치 선택 |
+| **Cloudflare Pages** | 폴더 업로드 또는 Git 연동 |
+| **사내 정적 서버** | nginx / apache 의 document root에 그대로 복사 |
+
+배포 시 **HTTPS 필수** (Service Worker · 모바일 PWA 설치 요건).
+
+## 컨트롤
+
+| 동작 | 키 |
+|---|---|
+| 좌·우 이동 | `←` `→` |
+| 회전 (시계방향) | `SPACE` `↑` `X` |
+| 회전 (반시계방향) | `Z` |
+| 소프트 드롭 ×12 | `↓` (홀드) |
+| 하드 드롭 | `Shift` |
+| Hold | `C` |
+| Pause | `P` `ESC` |
+| Start / Resume | `Enter` |
+
+모바일은 화면 하단 터치 패드로 동일 조작.
+
+## 게임 사양
+
+- **플레이필드**: 표준 10 × 20
+- **랜덤화**: 7-bag (한 사이클 내 7종 모두 정확히 1회 등장)
+- **회전**: SRS (Super Rotation System) + 월킥
+- **점수 체계** (가이드라인): 1줄 100 · 2줄 300 · 3줄 500 · **테트리스 800** × 레벨
+- **레벨 상승**: 10라인마다 1레벨 (속도 가속)
+- **고급 기능**: Hold · Ghost Piece · Next 3 Preview
+- **사운드**: Web Audio API 합성 — BGM(Korobeiniki, Public Domain) + 효과음 9종
+- **저장**: localStorage 기반 최고점수 영구 보존
+
+## 디자인
+
+PERI Design DNA v2 100% 준수:
+
+- 화이트 도미넌트 배경 (55%+)
+- 0px radius · 무 그림자 · 무 그라디언트
+- L-bracket 모티브 (10px PERI Yellow 좌측 바) 패널 7곳
+- 보드 트리컬러 프레임: 좌 Yellow / 우 Red / 상하 Grey
+- PERI Yellow `#FFC300` · PERI Red `#DC0032` · Grey `#333333` 시그니처
+- 보드 중앙 흐릿한 PERI 워터마크 (브랜드 존재감)
+- Univers LT CYR (display) + Roboto (body) 폰트 페어
+
+## 라이선스 / 출처
+
+- 게임 코드: 자체 제작
+- BGM 멜로디: Korobeiniki (러시아 민요, Public Domain)
+- PERI 로고 · 컬러: PERI 본사 공식 브랜드 자산
+- Tetris® 상표: The Tetris Company 소유 — 본 프로젝트는 학습·내부 데모 용도
+
+---
+
+**Build**: 2026-04-27 · PERI Korea Internal
